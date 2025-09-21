@@ -71,6 +71,12 @@
     </style>
 </head>
 <body class="min-h-screen antialiased">
+    <!-- SPLASH SCREEN START -->
+    <div id="splash-screen" class="fixed inset-0 flex items-center justify-center bg-vf-light-green-bg z-50 transition-opacity duration-1000">
+        <img src="https://raw.githubusercontent.com/iadesignerweb/pliniostudio.io/refs/heads/main/CC_20250921_102607.png" alt="vitafruit Logo" class="h-40 md:h-52 animate-pulse">
+    </div>
+    <!-- SPLASH SCREEN END -->
+
     <div class="max-w-6xl mx-auto p-6 md:p-8 lg:p-10">
         <!-- Header -->
         <header class="text-center mb-10 mt-4">
@@ -298,7 +304,7 @@
               transition duration-300 ease-in-out transform hover:scale-105 z-50 flex items-center justify-center
               focus:outline-none focus:ring-2 focus:ring-vf-green-dark focus:ring-opacity-75">
         <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path fill-rule="evenodd" d="M12.016 2.046c-5.467 0-9.914 4.448-9.914 9.914 0 1.933.567 3.73 1.545 5.31l-1.63 4.965 5.09-1.58c1.54.896 3.28 1.398 5.09 1.398 5.466 0 9.914-4.447 9.914-9.914s-4.448-9.914-9.914-9.914zm3.87 14.65c-.21.21-.493.315-.776.315-.283 0-.566-.105-.776-.315l-.707-.707c-.105-.105-.21-.21-.315-.42-.105-.21-.21-.42-.315-.63-.21-.21-.315-.494-.315-.777 0-.283.105-.566.315-.776l.707-.707c.105-.105.21-.21.315-.42.105.21.21.42.315.63.21.21.493.315.776.315.283 0 .566.105.776.315l.707.707c-.105.105-.21.21-.315.42-.105.21-.21.42-.315.63-.21.21-.494.315-.777.315zm-2.115-4.22c-.21-.21-.494-.315-.777-.315-.283 0-.566.105-.776.315l-.707.707c-.105.105-.21.21-.315.42-.105.21-.21.42-.315.63-.21.21-.315.494-.315.777 0 .283.105.566.315.776l.707.707c-.105.105-.21.21-.315.42.105.21.21.42.315.63.21.21.494.315.777.315.283 0 .566-.105.776-.315l-.707-.707c-.105-.105-.21-.21-.315-.42-.105-.21-.21-.42-.315-.63.21-.21.315-.494.315-.777 0-.283-.105-.566-.315-.776l-.707-.707c-.105-.105-.21-.21-.315-.42-.105-.21-.21-.42-.315-.63zM8.136 7.356c-.21-.21-.494-.315-.777-.315-.283 0-.566.105-.776.315l-.707.707c-.105.105-.21.21-.315.42-.105.21-.21.42-.315.63-.21.21-.315.494-.315.777 0 .283.105.566.315.776l.707.707c-.105.105.21.21.315.42.105.21.21.42.315.63.21.21.494.315.777.315.283 0 .566-.105.776-.315l.707-.707c-.105-.105-.21-.21-.315-.42-.105-.21-.21-.42-.315-.63z"/>
+            <path fill-rule="evenodd" d="M12.016 2.046c-5.467 0-9.914 4.448-9.914 9.914 0 1.933.567 3.73 1.545 5.31l-1.63 4.965 5.09-1.58c1.54.896 3.28 1.398 5.09 1.398 5.466 0 9.914-4.447 9.914-9.914s-4.448-9.914-9.914-9.914zm3.87 14.65c-.21.21-.493.315-.776.315-.283 0-.566-.105-.776-.315l-.707-.707c-.105-.105-.21-.21-.315-.42-.105-.21-.21-.42-.315-.63-.21-.21-.315-.494-.315-.777 0-.283.105-.566.315-.776l.707-.707c-.105-.105.21-.21.315-.42.105.21.21.42.315.63.21.21.493.315.776.315.283 0 .566.105.776.315l.707.707c-.105.105-.21.21-.315.42-.105.21-.21.42-.315.63-.21.21-.494.315-.777.315zm-2.115-4.22c-.21-.21-.494-.315-.777-.315-.283 0-.566.105-.776.315l-.707.707c-.105.105-.21.21-.315.42-.105.21-.21.42-.315.63-.21.21-.315.494-.315.777 0 .283.105.566.315.776l.707.707c-.105.105-.21.21-.315.42.105.21.21.42.315.63.21.21.494.315.777.315.283 0 .566-.105.776-.315l-.707-.707c-.105-.105-.21-.21-.315-.42-.105-.21-.21-.42-.315-.63.21-.21.315-.494.315-.777 0-.283-.105-.566-.315-.776l-.707-.707c-.105-.105-.21-.21-.315-.42-.105-.21-.21-.42-.315-.63zM8.136 7.356c-.21-.21-.494-.315-.777-.315-.283 0-.566.105-.776.315l-.707.707c-.105.105-.21.21-.315.42-.105.21-.21.42-.315.63-.21.21-.315.494-.315.777 0 .283.105.566.315.776l.707.707c-.105.105-.21.21-.315.42.105.21.21.42.315.63.21.21.494.315.777.315.283 0 .566-.105.776-.315l.707-.707c-.105-.105-.21-.21-.315-.42-.105-.21-.21-.42-.315-.63z"/>
         </svg>
         <span class="sr-only">WhatsApp</span>
     </a>
@@ -309,6 +315,21 @@
     </footer>
 
     <script>
+        // Splash screen logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const splashScreen = document.getElementById('splash-screen');
+
+            setTimeout(() => {
+                splashScreen.classList.add('opacity-0'); // Start fading out
+
+                // After the transition, hide it completely
+                splashScreen.addEventListener('transitionend', () => {
+                    splashScreen.style.display = 'none';
+                }, { once: true }); // Ensure the event listener only runs once
+            }, 5000); // 5 seconds
+        });
+
+
         let orderItems = {};
         let totalPrice = 0;
 
@@ -437,5 +458,5 @@
         updateOrderDisplay();
     </script>
     <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9829a91ec66bb8fb',t:'MTc1ODQ1ODczNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
-</body>
+</body> 
 </html>
