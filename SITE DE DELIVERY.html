@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monte seu Pedido - vitafruit</title>
+    <!-- Tailwind CSS with custom color configuration -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'vf-green-dark': '#3B7546', // Logo text and leaves
+                        'vf-light-green-bg': '#E7F4E8', // Logo image background, main body bg
+                        'vf-orange': '#F6A648', // Logo orange segment
+                        'vf-yellow': '#F9D04B', // Logo yellow segment
+                        'vf-coral': '#EA644F', // Logo coral segment
+                        'vf-green-lighter': '#D4E2D6', // A lighter shade of vf-green-dark for gradients or accents
+                        'vf-coral-lighter': '#FFF3F0', // A lighter shade of vf-coral for gradients
+                        'vf-orange-lighter': '#FDECD7', // A lighter shade of vf-orange for gradients
+                    }
+                }
+            }
+        };
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--tw-colors-vf-light-green-bg); /* Apply new body background color */
+        }
+        /* Gradient backgrounds for categories - using Tailwind custom colors */
+        .category-appetizer {
+            background: linear-gradient(135deg, var(--tw-colors-vf-yellow) 0%, var(--tw-colors-vf-orange) 100%);
+        }
+        .category-pasta {
+            background: linear-gradient(135deg, var(--tw-colors-vf-light-green-bg) 0%, var(--tw-colors-vf-green-lighter) 100%);
+        }
+        .category-dessert {
+            background: linear-gradient(135deg, var(--tw-colors-vf-coral-lighter) 0%, var(--tw-colors-vf-coral) 100%);
+        }
+
+        /* Item card styling */
+        .item-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid #e2e8f0; /* Default border */
+        }
+        .item-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08); /* Slightly more pronounced shadow on hover */
+            border-color: #cbd5e1; /* Subtle border change on hover */
+        }
+        /* Selected item styling - using new brand orange */
+        .selected {
+            border: 2px solid var(--tw-colors-vf-orange);
+            background: rgba(246, 166, 72, 0.05); /* Light orange background for selected items */
+            box-shadow: 0 4px 10px rgba(246, 166, 72, 0.1); /* Subtle orange shadow */
+        }
+        /* Quantity control buttons */
+        .quantity-control {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+        }
+        /* Ensures inputs are full width by default, good for mobile */
+        input[type="text"], input[type="number"] {
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="min-h-screen antialiased">
+    <div class="max-w-6xl mx-auto p-6 md:p-8 lg:p-10">
+        <!-- Header -->
+        <header class="text-center mb-10 mt-4">
+            <img src="https://raw.githubusercontent.com/iadesignerweb/pliniostudio.io/refs/heads/main/CC_20250921_102607.png" alt="vitafruit Logo" class="h-16 md:h-20 mx-auto mb-2">
+            <p class="text-xl text-gray-600 font-light">Monte seu Pedido</p>
+            <div class="w-28 h-1.5 bg-gradient-to-r from-vf-orange to-vf-coral mx-auto mt-4 rounded-full"></div>
+        </header>
+
+        <div class="grid lg:grid-cols-3 gap-8 lg:gap-10">
+            <!-- Menu Categories -->
+            <div class="lg:col-span-2 space-y-8">
+                <!-- Appetizers -->
+                <div class="rounded-2xl shadow-xl overflow-hidden">
+                    <div class="category-appetizer p-5 rounded-t-2xl">
+                        <h2 class="text-2xl font-semibold text-vf-green-dark flex items-center">
+                            <span class="w-3 h-3 bg-vf-orange rounded-full mr-3 animate-pulse"></span> Entradas
+                        </h2>
+                        <p class="text-gray-800 text-sm mt-1">R$ 8 - 12</p>
+                    </div>
+                    <div class="bg-white p-6 space-y-4 rounded-b-2xl">
+                        <div class="item-card p-4 rounded-lg" data-category="appetizer" data-name="Bruschetta Artesanal" data-price="10">
+                            <div class="flex justify-between items-start">
+                                <div class="flex-1">
+                                    <h3 class="font-semibold text-gray-900">Bruschetta Artesanal</h3>
+                                    <p class="text-gray-600 text-sm mt-1">Pão italiano, tomate fresco, manjericão e azeite extra virgem</p>
+                                </div>
+                                <div class="text-right ml-4">
+                                    <span class="text-lg font-semibold text-vf-orange">R$ 10</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item-card p-4 rounded-lg" data-category="appetizer" data-name="Carpaccio de Salmão" data-price="12">
+                            <div class="flex justify-between items-start">
+                                <div class="flex-1">
+                                    <h3 class="font-semibold text-gray-900">Carpaccio de Salmão</h3>
+                                    <p class="text-gray-600 text-sm mt-1">Salmão fresco, alcaparras, rúcula e molho cítrico</p>
+                                </div>
+                                <div class="text-right ml-4">
+                                    <span class="text-lg font-semibold text-vf-orange">R$ 12</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item-card p-4 rounded-lg" data-category="appetizer" data-name="Tábua de Queijos" data-price="8">
+                            <div class="flex justify-between items-start">
+                                <div class="flex-1">
+                                    <h3 class="font-semibold text-gray-900">Tábua de Queijos</h3>
+                                    <p class="text-gray-600 text-sm mt-1">Seleção de queijos artesanais com geleia e nozes</p>
+                                </div>
+                                <div class="text-right ml-4">
+                                    <span class="text-lg font-semibold text-vf-orange">R$ 8</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pastas -->
+                <div class="rounded-2xl shadow-xl overflow-hidden">
+                    <div class="category-pasta p-5 rounded-t-2xl">
+                        <h2 class="text-2xl font-semibold text-vf-green-dark flex items-center">
+                            <span class="w-3 h-3 bg-vf-green-dark rounded-full mr-3 animate-pulse"></span> Massas
+                        </h2>
+                        <p class="text-gray-800 text-sm mt-1">R$ 14 - 18 (com carnes)</p>
+                    </div>
+                    <div class="bg-white p-6 space-y-4 rounded-b-2xl">
+                        <div class="item-card p-4 rounded-lg" data-category="pasta" data-name="Fettuccine Alfredo" data-price="14">
+                            <div class="flex justify-between items-start">
+                                <div class="flex-1">
+                                    <h3 class="font-semibold text-gray-900">Fettuccine Alfredo</h3>
+                                    <p class="text-gray-600 text-sm mt-1">Massa fresca com molho cremoso de parmesão</p>
+                                    <div class="mt-2">
+                                        <span class="text-xs bg-vf-green-lighter text-vf-green-dark px-2 py-1 rounded-full">+ Frango R$ 4</span>
+                                    </div>
+                                </div>
+                                <div class="text-right ml-4">
+                                    <span class="text-lg font-semibold text-vf-green-dark">R$ 14</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item-card p-4 rounded-lg" data-category="pasta" data-name="Penne Arrabbiata" data-price="16">
+                            <div class="flex justify-between items-start">
+                                <div class="flex-1">
+                                    <h3 class="font-semibold text-gray-900">Penne Arrabbiata</h3>
+                                    <p class="text-gray-600 text-sm mt-1">Molho de tomate picante com manjericão e alho</p>
+                                    <div class="mt-2">
+                                        <span class="text-xs bg-vf-green-lighter text-vf-green-dark px-2 py-1 rounded-full">+ Linguiça R$ 4</span>
+                                    </div>
+                                </div>
+                                <div class="text-right ml-4">
+                                    <span class="text-lg font-semibold text-vf-green-dark">R$ 16</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item-card p-4 rounded-lg" data-category="pasta" data-name="Lasanha Bolonhesa" data-price="18">
+                            <div class="flex justify-between items-start">
+                                <div class="flex-1">
+                                    <h3 class="font-semibold text-gray-900">Lasanha Bolonhesa</h3>
+                                    <p class="text-gray-600 text-sm mt-1">Camadas de massa, molho bolonhesa e queijos</p>
+                                    <div class="mt-2">
+                                        <span class="text-xs bg-vf-green-lighter text-vf-green-dark px-2 py-1 rounded-full">Já inclui carne</span>
+                                    </div>
+                                </div>
+                                <div class="text-right ml-4">
+                                    <span class="text-lg font-semibold text-vf-green-dark">R$ 18</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desserts -->
+                <div class="rounded-2xl shadow-xl overflow-hidden">
+                    <div class="category-dessert p-5 rounded-t-2xl">
+                        <h2 class="text-2xl font-semibold text-vf-green-dark flex items-center">
+                            <span class="w-3 h-3 bg-vf-coral rounded-full mr-3 animate-pulse"></span> Sobremesas
+                        </h2>
+                        <p class="text-gray-800 text-sm mt-1">R$ 6 - 9</p>
+                    </div>
+                    <div class="bg-white p-6 space-y-4 rounded-b-2xl">
+                        <div class="item-card p-4 rounded-lg" data-category="dessert" data-name="Tiramisu" data-price="9">
+                            <div class="flex justify-between items-start">
+                                <div class="flex-1">
+                                    <h3 class="font-semibold text-gray-900">Tiramisu</h3>
+                                    <p class="text-gray-600 text-sm mt-1">Clássico italiano com café, mascarpone e cacau</p>
+                                </div>
+                                <div class="text-right ml-4">
+                                    <span class="text-lg font-semibold text-vf-coral">R$ 9</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item-card p-4 rounded-lg" data-category="dessert" data-name="Panna Cotta" data-price="7">
+                            <div class="flex justify-between items-start">
+                                <div class="flex-1">
+                                    <h3 class="font-semibold text-gray-900">Panna Cotta</h3>
+                                    <p class="text-gray-600 text-sm mt-1">Cremoso de baunilha com calda de frutas vermelhas</p>
+                                </div>
+                                <div class="text-right ml-4">
+                                    <span class="text-lg font-semibold text-vf-coral">R$ 7</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item-card p-4 rounded-lg" data-category="dessert" data-name="Gelato Artesanal" data-price="6">
+                            <div class="flex justify-between items-start">
+                                <div class="flex-1">
+                                    <h3 class="font-semibold text-gray-900">Gelato Artesanal</h3>
+                                    <p class="text-gray-600 text-sm mt-1">Sabores: pistache, stracciatella ou limão siciliano</p>
+                                </div>
+                                <div class="text-right ml-4">
+                                    <span class="text-lg font-semibold text-vf-coral">R$ 6</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Summary and Form -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-2xl shadow-xl p-6 sticky top-8">
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-4 flex items-center">
+                        <span class="w-2.5 h-2.5 bg-vf-orange rounded-full mr-3 animate-pulse"></span> Seu Pedido
+                    </h3>
+                    <div id="order-items" class="space-y-3 mb-6">
+                        <div class="text-gray-500 text-center py-8 text-sm"> Clique nos pratos para adicionar ao seu pedido </div>
+                    </div>
+                    <div class="border-t pt-4 mt-4">
+                        <div class="flex justify-between items-center text-xl font-bold">
+                            <span>Total:</span>
+                            <span id="total-price" class="text-vf-green-dark">R$ 0</span>
+                        </div>
+                    </div>
+
+                    <!-- Customer Information Form -->
+                    <div class="mt-8 pt-6 border-t">
+                        <h4 class="text-xl font-semibold text-gray-900 mb-4">Informações de Entrega</h4>
+                        <form id="order-form" class="space-y-4">
+                            <div>
+                                <label for="nome" class="block text-sm font-medium text-gray-700 mb-1">Nome</label>
+                                <input type="text" id="nome" name="nome" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-vf-green-dark focus:border-vf-green-dark sm:text-sm" required>
+                            </div>
+                            <div>
+                                <label for="sobrenome" class="block text-sm font-medium text-gray-700 mb-1">Sobrenome</label>
+                                <input type="text" id="sobrenome" name="sobrenome" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-vf-green-dark focus:border-vf-green-dark sm:text-sm" required>
+                            </div>
+                            <div>
+                                <label for="rua" class="block text-sm font-medium text-gray-700 mb-1">Rua</label>
+                                <input type="text" id="rua" name="rua" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-vf-green-dark focus:border-vf-green-dark sm:text-sm" required>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="numero" class="block text-sm font-medium text-gray-700 mb-1">Número</label>
+                                    <input type="text" id="numero" name="numero" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-vf-green-dark focus:border-vf-green-dark sm:text-sm" required>
+                                </div>
+                                <div>
+                                    <label for="bairro" class="block text-sm font-medium text-gray-700 mb-1">Bairro</label>
+                                    <input type="text" id="bairro" name="bairro" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-vf-green-dark focus:border-vf-green-dark sm:text-sm" required>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="referencia" class="block text-sm font-medium text-gray-700 mb-1">Ponto de Referência <span class="text-gray-500 text-xs">(Opcional)</span></label>
+                                <input type="text" id="referencia" name="referencia" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-vf-green-dark focus:border-vf-green-dark sm:text-sm">
+                            </div>
+                            <div>
+                                <label for="cidade" class="block text-sm font-medium text-gray-700 mb-1">Cidade</label>
+                                <input type="text" id="cidade" name="cidade" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-vf-green-dark focus:border-vf-green-dark sm:text-sm" required>
+                            </div>
+
+                            <button type="submit"
+                                    class="w-full flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-vf-green-dark hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-vf-green-dark transition duration-150 ease-in-out">
+                                <svg class="-ml-1 mr-2 h-5 w-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                </svg>
+                                Enviar Pedido via WhatsApp
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/5587999786261" target="_blank"
+       class="fixed bottom-6 right-6 bg-vf-green-dark hover:bg-green-700 text-white p-4 rounded-full shadow-lg
+              transition duration-300 ease-in-out transform hover:scale-105 z-50 flex items-center justify-center
+              focus:outline-none focus:ring-2 focus:ring-vf-green-dark focus:ring-opacity-75">
+        <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill-rule="evenodd" d="M12.016 2.046c-5.467 0-9.914 4.448-9.914 9.914 0 1.933.567 3.73 1.545 5.31l-1.63 4.965 5.09-1.58c1.54.896 3.28 1.398 5.09 1.398 5.466 0 9.914-4.447 9.914-9.914s-4.448-9.914-9.914-9.914zm3.87 14.65c-.21.21-.493.315-.776.315-.283 0-.566-.105-.776-.315l-.707-.707c-.105-.105-.21-.21-.315-.42-.105-.21-.21-.42-.315-.63-.21-.21-.315-.494-.315-.777 0-.283.105-.566.315-.776l.707-.707c.105-.105.21-.21.315-.42.105.21.21.42.315.63.21.21.493.315.776.315.283 0 .566.105.776.315l.707.707c-.105.105-.21.21-.315.42-.105.21-.21.42-.315.63-.21.21-.494.315-.777.315zm-2.115-4.22c-.21-.21-.494-.315-.777-.315-.283 0-.566.105-.776.315l-.707.707c-.105.105-.21.21-.315.42-.105.21-.21.42-.315.63-.21.21-.315.494-.315.777 0 .283.105.566.315.776l.707.707c-.105.105-.21.21-.315.42.105.21.21.42.315.63.21.21.494.315.777.315.283 0 .566-.105.776-.315l-.707-.707c-.105-.105-.21-.21-.315-.42-.105-.21-.21-.42-.315-.63.21-.21.315-.494.315-.777 0-.283-.105-.566-.315-.776l-.707-.707c-.105-.105-.21-.21-.315-.42-.105-.21-.21-.42-.315-.63zM8.136 7.356c-.21-.21-.494-.315-.777-.315-.283 0-.566.105-.776.315l-.707.707c-.105.105-.21.21-.315.42-.105.21-.21.42-.315.63-.21.21-.315.494-.315.777 0 .283.105.566.315.776l.707.707c-.105.105.21.21.315.42.105.21.21.42.315.63.21.21.494.315.777.315.283 0 .566-.105.776-.315l.707-.707c-.105-.105-.21-.21-.315-.42-.105-.21-.21-.42-.315-.63z"/>
+        </svg>
+        <span class="sr-only">WhatsApp</span>
+    </a>
+
+    <!-- Footer -->
+    <footer class="bg-gray-100 text-gray-600 text-center py-6 mt-16 border-t border-gray-200">
+        <p class="text-sm font-light">&copy; Copyright 2025 - Plinio Studio.</p>
+    </footer>
+
+    <script>
+        let orderItems = {};
+        let totalPrice = 0;
+
+        function updateOrderDisplay() {
+            const orderContainer = document.getElementById('order-items');
+            const totalElement = document.getElementById('total-price');
+
+            if (Object.keys(orderItems).length === 0) {
+                orderContainer.innerHTML = '<div class="text-gray-500 text-center py-8 text-sm">Clique nos pratos para adicionar ao seu pedido</div>';
+                totalPrice = 0;
+            } else {
+                let html = '';
+                totalPrice = 0;
+                for (const [itemName, item] of Object.entries(orderItems)) {
+                    const itemTotal = item.price * item.quantity;
+                    totalPrice += itemTotal;
+                    html += `
+                        <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                            <div class="flex-1">
+                                <div class="font-medium text-sm text-gray-800">${itemName}</div>
+                                <div class="text-xs text-gray-600">R$ ${item.price.toFixed(2).replace('.', ',')} cada</div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <div class="quantity-control flex items-center">
+                                    <button type="button" onclick="changeQuantity('${itemName}', -1)" class="w-7 h-7 flex items-center justify-center text-gray-600 hover:text-gray-800 focus:outline-none focus:ring-1 focus:ring-gray-300 rounded-l-md transition duration-150 ease-in-out">-</button>
+                                    <span class="w-8 text-center text-sm font-medium text-gray-700">${item.quantity}</span>
+                                    <button type="button" onclick="changeQuantity('${itemName}', 1)" class="w-7 h-7 flex items-center justify-center text-gray-600 hover:text-gray-800 focus:outline-none focus:ring-1 focus:ring-gray-300 rounded-r-md transition duration-150 ease-in-out">+</button>
+                                </div>
+                                <div class="text-sm font-semibold text-vf-green-dark w-16 text-right">R$ ${itemTotal.toFixed(2).replace('.', ',')}</div>
+                            </div>
+                        </div>
+                    `;
+                }
+                orderContainer.innerHTML = html;
+            }
+            totalElement.textContent = `R$ ${totalPrice.toFixed(2).replace('.', ',')}`;
+        }
+
+        function changeQuantity(itemName, change) {
+            if (orderItems[itemName]) {
+                orderItems[itemName].quantity += change;
+                if (orderItems[itemName].quantity <= 0) {
+                    delete orderItems[itemName];
+                    const itemCards = document.querySelectorAll('.item-card');
+                    itemCards.forEach(card => {
+                        if (card.dataset.name === itemName) {
+                            card.classList.remove('selected');
+                        }
+                    });
+                }
+                updateOrderDisplay();
+            }
+        }
+
+        // Function to send order to WhatsApp
+        function sendOrderToWhatsApp(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            if (Object.keys(orderItems).length === 0) {
+                alert('Seu pedido está vazio! Adicione itens antes de enviar.');
+                return;
+            }
+
+            // Gather customer information
+            const nome = document.getElementById('nome').value.trim();
+            const sobrenome = document.getElementById('sobrenome').value.trim();
+            const rua = document.getElementById('rua').value.trim();
+            const numero = document.getElementById('numero').value.trim();
+            const referencia = document.getElementById('referencia').value.trim(); // Optional
+            const bairro = document.getElementById('bairro').value.trim();
+            const cidade = document.getElementById('cidade').value.trim();
+
+            // Basic validation
+            if (!nome || !sobrenome || !rua || !numero || !bairro || !cidade) {
+                alert('Por favor, preencha todos os campos obrigatórios de entrega.');
+                return;
+            }
+
+            let orderMessage = `Olá! Tenho um pedido para "vitafruit".\n\n`;
+
+            // Customer Details
+            orderMessage += `*Dados do Cliente:*\n`;
+            orderMessage += `Nome: ${nome} ${sobrenome}\n`;
+            orderMessage += `Endereço: ${rua}, ${numero}\n`;
+            orderMessage += `Bairro: ${bairro}\n`;
+            orderMessage += `Cidade: ${cidade}\n`;
+            if (referencia) { // Add reference only if provided
+                orderMessage += `Ponto de Referência: ${referencia}\n`;
+            }
+            orderMessage += `\n*Detalhes do Pedido:*\n`;
+
+            // Order Items
+            for (const [itemName, item] of Object.entries(orderItems)) {
+                orderMessage += `- ${item.quantity}x ${itemName} (R$ ${item.price.toFixed(2).replace('.', ',')})\n`;
+            }
+
+            // Total Price
+            orderMessage += `\n*Total: R$ ${totalPrice.toFixed(2).replace('.', ',')}*\n`;
+            orderMessage += `\nPor favor, confirme meu pedido.`;
+
+            // Encode message for URL and open WhatsApp
+            const encodedMessage = encodeURIComponent(orderMessage);
+            window.open(`https://wa.me/5587999786261?text=${encodedMessage}`, '_blank');
+        }
+
+        // Add click handlers to menu items
+        document.querySelectorAll('.item-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const itemName = this.dataset.name;
+                const itemPrice = parseFloat(this.dataset.price);
+
+                if (orderItems[itemName]) {
+                    orderItems[itemName].quantity += 1;
+                } else {
+                    orderItems[itemName] = { price: itemPrice, quantity: 1 };
+                    this.classList.add('selected');
+                }
+                updateOrderDisplay();
+            });
+        });
+
+        // Add submit handler to the form
+        document.getElementById('order-form').addEventListener('submit', sendOrderToWhatsApp);
+
+        // Initialize display
+        updateOrderDisplay();
+    </script>
+    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9829a91ec66bb8fb',t:'MTc1ODQ1ODczNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+</body>
+</html>
